@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import MessageList from './MessageList';
-import ChatInput from './ChatInput';
+import React, { useState } from "react";
+import MessageList from "./MessageList";
+import ChatInput from "./ChatInput";
 
 export type Message = {
   id: string;
@@ -12,11 +12,11 @@ export type Message = {
 export const ChatContainer: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
-      id: '1',
-      text: 'Hello! How can I help you today?',
+      id: "1",
+      text: "Hello! How can I help you today?",
       isUser: false,
       timestamp: new Date(),
-    }
+    },
   ]);
   const [isTyping, setIsTyping] = useState(false);
 
@@ -32,16 +32,16 @@ export const ChatContainer: React.FC = () => {
     setIsTyping(true);
 
     try {
-      const res = await fetch('http://localhost:3000/chat', {
-        method: 'POST',
+      const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/chat", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ message: text }),
       });
-      
+
       const data = await res.json();
-      
+
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         text: data.reply || "No response received",
@@ -50,7 +50,7 @@ export const ChatContainer: React.FC = () => {
       };
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
-      console.error('Error fetching chat response:', error);
+      console.error("Error fetching chat response:", error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         text: "Error communicating with the backend API. Make sure it is running on port 3000.",
