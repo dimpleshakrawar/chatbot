@@ -35,7 +35,7 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-app.post("/", async (req, res) => {
+app.get("/", async (req, res) => {
   return res.send({ json: "Backend is running" });
 });
 
