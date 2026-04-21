@@ -19,7 +19,13 @@ app.post("/chat", async (req, res) => {
   try {
     const response = await groq.chat.completions.create({
       model: "openai/gpt-oss-20b", // or grok-1 / grok-beta depending on access
-      messages: [{ role: "user", content: typeof message === 'string' ? message : JSON.stringify(message) }],
+      messages: [
+        {
+          role: "user",
+          content:
+            typeof message === "string" ? message : JSON.stringify(message),
+        },
+      ],
     });
     console.log(response.choices[0]?.message?.content, "res=====>>");
     res.json({ reply: response.choices[0].message.content });
@@ -27,6 +33,10 @@ app.post("/chat", async (req, res) => {
     console.error(err);
     res.status(500).json({ reply: "Error fetching response from Groq" });
   }
+});
+
+app.post("/", async (req, res) => {
+  return res.send({ json: "Backend is running" });
 });
 
 app.listen(3000, () => {
